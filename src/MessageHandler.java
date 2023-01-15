@@ -41,7 +41,7 @@ public class MessageHandler {
             client.currentLobbyIndex = lobbyIndex;
             lobby.playersInLobby++;
             lobby.addPlayer(client.name, clientWrite);
-            sendRefreshedLobbiesString(lobbyIndex, lobbies);
+            sendRefreshedLobbiesString(lobbyIndex, lobbies, client.currentLobbyIndex);
             clientWrite.println("You have joined lobby " + lobbyIndex + "!");
             clientWrite.println("Waiting for other players to join...");
         } else if (message.startsWith("/leave_lobby")) {
@@ -50,14 +50,14 @@ public class MessageHandler {
                 return;
             }
 
-            sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies);
+            sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies, -1);
             leaveLobby(client, lobbies);
             clientWrite.println("You left the lobby!");
         } else if (message.startsWith("/quit")) {
             clientWrite.println("Goodbye!");
 
             if (client.currentLobbyIndex != -1) {
-                sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies);
+                sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies, -1);
                 leaveLobby(client, lobbies);
             }
             // remove client from clients vector by name
@@ -107,13 +107,16 @@ public class MessageHandler {
         }
     }
 
-    private void sendRefreshedLobbiesString(int lobbyIndex, List<Lobby> lobbies) {
+    private void sendRefreshedLobbiesString(int lobbyIndex, List<Lobby> lobbies, int skipIndex) {
         ListLobbies listLobbies = new ListLobbies(lobbies);
         String lobbiesString = listLobbies.getLobbiesString();
 
         Lobby lobby = lobbies.get(lobbyIndex);
         for (int i = 0; i < lobby.playersInLobby; i++) {
-            lobby.clientWriter[i].println(lobbiesString);
+            if (i == skipIndex)
+                continue;
+            if (lobby.clientWriter[i] != null)
+                lobby.clientWriter[i].println(lobbiesString);
         }
 
     }
