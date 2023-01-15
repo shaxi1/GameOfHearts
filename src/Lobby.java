@@ -6,9 +6,11 @@ public class Lobby {
     public int lobbyIndex; /* same as gameIndex */
     public GameRunner gameRunner;
 
-    private String[] playerNames;
-    private int playersInLobby;
+    public String[] playerNames;
+    public int playersInLobby;
     Boolean gameStarted;
+    Boolean gameFinished;
+    String winnerName;
 
     public Lobby(int lobbyIndex) {
         this.lobbyIndex = lobbyIndex;
@@ -17,6 +19,7 @@ public class Lobby {
 
         this.playersInLobby = 0;
         this.gameStarted = false;
+        this.gameFinished = false;
     }
 
     public void addPlayer(String playerName) {
@@ -43,9 +46,25 @@ public class Lobby {
         }
     }
 
-    public void startGame() {
+    public String playCard(String playerName, Card card) {
+        if (!gameStarted) {
+            return "Game haven't started yet";
+        }
+
+        if(!gameRunner.playCard(playerName, card)) {
+            return "You don't have this card";
+        }
+
+        return "Card played";
+    }
+
+    public Player startGame() {
         gameStarted = true;
-        gameRunner.startGame();
+        Player winner = gameRunner.startGame();
+
+        winnerName = winner.name;
+        gameFinished = true;
+        return winner;
     }
 
 }

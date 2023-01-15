@@ -15,4 +15,8 @@ public class Card {
 
         this.cardIndex = Arrays.asList(faceValue).indexOf(symbol);
     }
+
+    public int getCardfaceVaulueIndex(String faceValue) {
+        return Arrays.asList(this.faceValue).indexOf(faceValue);
+    }
 }

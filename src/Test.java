@@ -12,11 +12,11 @@ public class Test {
         //dealer.dealCards(players, 2);
 
 
-        Lobby lobby = new Lobby(1);
-        lobby.addPlayer("Player 1");
-        lobby.addPlayer("Player 2");
-        lobby.removePlayer("Player 1");
-        lobby.addPlayer("Player 1");
+//        Lobby lobby = new Lobby(1);
+//        lobby.addPlayer("Player 1");
+//        lobby.addPlayer("Player 2");
+//        lobby.removePlayer("Player 1");
+//        lobby.addPlayer("Player 1");
 
         System.out.println("test");
     }
