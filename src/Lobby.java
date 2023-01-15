@@ -1,34 +1,42 @@
+import java.util.Objects;
+
 public class Lobby {
     private final int playerCount = 4; /* min and max */
 
     public int lobbyIndex; /* same as gameIndex */
+    public GameRunner gameRunner;
 
     private int playersInLobby;
-    private Player[] players;
+    private String[] playerNames;
     Boolean gameStarted;
 
     public Lobby(int lobbyIndex) {
         this.lobbyIndex = lobbyIndex;
+        this.gameRunner = new GameRunner(lobbyIndex);
 
         this.playersInLobby = 0;
         this.gameStarted = false;
     }
 
-    public void addPlayer(Player player) {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i] == null) {
-                players[i] = player;
+    public void addPlayer(String playerName) {
+        for (int i = 0; i < playerNames.length; i++) {
+            if (playerNames[i] == null) {
+                playerNames[i] = playerName;
                 playersInLobby++;
+
+                gameRunner.addPlayer(playerName);
                 break;
             }
         }
     }
 
     public void removePlayer(String playerName) {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].name.equals(playerName)) {
-                players[i] = null;
+        for (int i = 0; i < playerNames.length; i++) {
+            if (Objects.equals(playerNames[i], playerName)) {
+                playerNames[i] = null;
                 playersInLobby--;
+
+                gameRunner.removePlayer(playerName);
                 break;
             }
         }
