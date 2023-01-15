@@ -39,7 +39,6 @@ public class MessageHandler {
             }
 
             client.currentLobbyIndex = lobbyIndex;
-            lobby.playersInLobby++;
             lobby.addPlayer(client.name, clientWrite);
             sendRefreshedLobbiesString(lobbyIndex, lobbies, client.name);
             clientWrite.println("You have joined lobby " + lobbyIndex + "!");
@@ -74,7 +73,6 @@ public class MessageHandler {
 
     private void leaveLobby(Client client, List<Lobby> lobbies) {
         Lobby lobby = lobbies.get(client.currentLobbyIndex);
-        lobby.playersInLobby--;
         lobby.removePlayer(client.name);
         client.isPlaying = false;
     }
