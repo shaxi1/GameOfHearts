@@ -14,7 +14,7 @@ public class GameRunner {
         this.players = new Player[playerCount];
         this.playersInLobby = 0;
 
-        this.turn = 0;
+        this.turn = -1;
         this.lastStartingPlayer = -1;
         this.currentPlayer = -1;
     }

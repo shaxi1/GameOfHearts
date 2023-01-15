@@ -14,6 +14,9 @@ public class Test {
 
         Lobby lobby = new Lobby(1);
         lobby.addPlayer("Player 1");
+        lobby.addPlayer("Player 2");
+        lobby.removePlayer("Player 1");
+        lobby.addPlayer("Player 1");
 
         System.out.println("test");
     }
