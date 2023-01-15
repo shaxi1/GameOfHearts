@@ -7,7 +7,7 @@ import java.util.Vector;
 public class LobbyHandlerThread extends Thread {
     final int maxPlayers = 4;
 
-    List <Lobby> lobbies;
+    volatile List <Lobby> lobbies;
     Vector <Client> clients;
 
     public LobbyHandlerThread(List<Lobby> lobbies, Vector<Client> clients) {
@@ -17,12 +17,12 @@ public class LobbyHandlerThread extends Thread {
         lobbies.add(new Lobby(lobbies.size()));
     }
 
-    public void run() {
+    public synchronized void run() {
         while (true) {
             // if no empty lobbies create a new one
-            if (!isEmptyLobby())
+            if (!isEmptyLobby()) {
                 lobbies.add(new Lobby(lobbies.size()));
-
+            }
             // if game finished recreate the lobby
             for (Lobby lobby : lobbies) {
                 if (lobby.gameFinished) {

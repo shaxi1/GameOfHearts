@@ -10,8 +10,8 @@ public class Lobby {
 
     public String[] playerNames;
     public int playersInLobby;
-    Boolean gameStarted;
-    Boolean gameFinished;
+    volatile Boolean gameStarted;
+    volatile Boolean gameFinished;
     String winnerName;
 
 
