@@ -111,6 +111,8 @@ public class GameRunner {
                 if (j == handSize/2)
                     hand.append("\n");
             }
+
+            clientWriter[i].println("Your hand:\n" + hand);
         }
     }
 
