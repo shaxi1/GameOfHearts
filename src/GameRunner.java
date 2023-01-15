@@ -102,8 +102,8 @@ public class GameRunner {
         if (isCardPileEmpty())
             return;
         StringBuilder pileMsg = new StringBuilder("Cards in play: ");
-        for (int i = 0; i < cardPile.length; i++) {
-            pileMsg.append(cardPile[i].symbol).append(" of ").append(cardPile[i].suit).append(", ");
+        for (Card card : cardPile) {
+            pileMsg.append(card.symbol).append(" of ").append(card.suit).append(", ");
         }
 
         for (int i = 0; i < players.length; i++) {
