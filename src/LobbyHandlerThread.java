@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Vector;
 
 public class LobbyHandlerThread extends Thread {
+    final int maxPlayers = 4;
+
     List <Lobby> lobbies;
     Vector <Client> clients;
 
@@ -29,6 +31,13 @@ public class LobbyHandlerThread extends Thread {
 
                     lobbies.remove(lobby);
                     lobbies.add(new Lobby(lobbies.size()));
+                }
+            }
+
+            // check if there are enough players to start a game
+            for (Lobby lobby : lobbies) {
+                if (lobby.playersInLobby == maxPlayers) {
+                    lobby.startGame();
                 }
             }
 
