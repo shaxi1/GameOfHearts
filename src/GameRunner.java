@@ -75,6 +75,7 @@ public class GameRunner {
                     // TODO: send msg to client
                     sendPileMsg();
                     sendYourTurnMsg(currentPlayer);
+                    sendYourHandMsg();
 
                     this.cardPlayed = false;
                     while(!this.cardPlayed) {
@@ -96,6 +97,20 @@ public class GameRunner {
         }
 
         return getWinner();
+    }
+
+    private void sendYourHandMsg() {
+        for (int i = 0; i < playerCount; i++) {
+            StringBuilder hand = new StringBuilder();
+            int j = 0;
+            for (Card card : players[i].hand) {
+                hand.append(card.symbol).append(" of ").append(card.suit).append(", ");
+
+                j++;
+                if (j == handSize/2)
+                    hand.append("\n");
+            }
+        }
     }
 
     private void sendPileMsg() {
