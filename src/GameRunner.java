@@ -11,6 +11,7 @@ public class GameRunner {
 
     public GameRunner(int gameIndex) {
         this.gameIndex = 0;
+        this.players = new Player[playerCount];
         this.playersInLobby = 0;
 
         this.turn = 0;

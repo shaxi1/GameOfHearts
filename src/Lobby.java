@@ -12,6 +12,7 @@ public class Lobby {
 
     public Lobby(int lobbyIndex) {
         this.lobbyIndex = lobbyIndex;
+        this.playerNames = new String[playerCount];
         this.gameRunner = new GameRunner(lobbyIndex);
 
         this.playersInLobby = 0;
