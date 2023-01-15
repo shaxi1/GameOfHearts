@@ -6,7 +6,7 @@ public class Test {
                 new Player("Player 3", 2),
                 new Player("Player 4", 3)
         };
-        
+
         VirtualDealer dealer = new VirtualDealer();
         dealer.dealCards(players, -1);
         //dealer.dealCards(players, 2);
