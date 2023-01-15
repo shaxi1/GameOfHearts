@@ -25,7 +25,7 @@ public class VirtualDealer {
         }
     }
 
-    public void dealCards(Player[] players, int lastStartingPlayer) {
+    public int dealCards(Player[] players, int lastStartingPlayer) {
         createDeck();
 
         for (Player player : players) {
@@ -46,6 +46,8 @@ public class VirtualDealer {
         }
         players[randomIndex].starts = true;
         setStartVarToFalse(players, randomIndex);
+
+        return randomIndex;
     }
 
     private void setStartVarToFalse(Player[] players, int ignoreIndex) {

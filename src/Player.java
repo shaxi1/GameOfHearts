@@ -13,10 +13,12 @@ public class Player {
 
     public List<Card> hand;
     Boolean starts;
+    Boolean myTurn;
 
     public Player(String name, int playerIndex) {
         this.name = name;
         this.score = 0;
+        this.myTurn = false;
         this.playerIndex = playerIndex;
 
         this.hand = new ArrayList<>();
