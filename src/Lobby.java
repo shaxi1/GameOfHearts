@@ -6,8 +6,8 @@ public class Lobby {
     public int lobbyIndex; /* same as gameIndex */
     public GameRunner gameRunner;
 
-    private int playersInLobby;
     private String[] playerNames;
+    private int playersInLobby;
     Boolean gameStarted;
 
     public Lobby(int lobbyIndex) {
@@ -43,7 +43,8 @@ public class Lobby {
     }
 
     public void startGame() {
-
+        gameStarted = true;
+        gameRunner.startGame();
     }
 
 }
