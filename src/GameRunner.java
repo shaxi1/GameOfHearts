@@ -112,7 +112,7 @@ public class GameRunner {
                     hand.append("\n");
             }
 
-            clientWriter[i].println("Your hand:\n" + hand);
+            clientWriter[i].println("\nYour hand:\n" + hand);
         }
     }
 

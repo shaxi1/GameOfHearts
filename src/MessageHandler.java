@@ -97,7 +97,7 @@ public class MessageHandler {
             String cardName = messageParts[1];
             String cardSuit = messageParts[2];
 
-            Card card = new Card(cardName, cardSuit);
+            Card card = new Card(cardSuit, cardName);
 
             Lobby lobby = lobbies.get(client.currentLobbyIndex);
             String playMsg = lobby.playCard(client.name, card);
