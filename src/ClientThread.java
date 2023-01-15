@@ -30,8 +30,15 @@ public class ClientThread extends Thread {
             this.clientRead = new BufferedReader(new InputStreamReader(inputStream));
             this.clientWrite = new PrintWriter(client.socket.getOutputStream(), true);
 
-            while (askForUsername() == null)
+            while (true) {
+                String username = askForUsername();
+                if (username != null) {
+                    client.name = username;
+                    break;
+                }
                 clientWrite.println("Username already taken!");
+            }
+
 
             clientWrite.println("Welcome to the server, " + client.name + "!");
             ListLobbies listLobbies = new ListLobbies(lobbies);
@@ -62,7 +69,7 @@ public class ClientThread extends Thread {
             }
 
 
-            clients.remove(clientIndex);
+            //clients.remove(clientIndex);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,9 +81,12 @@ public class ClientThread extends Thread {
         String username = this.clientRead.readLine();
 
         /* check if username exists */
-        for (Client client : clients)
+        for (Client client : clients) {
+            if (client.name == null)
+                continue;
             if (client.name.equals(username))
                 return null;
+        }
 
         return username;
     }

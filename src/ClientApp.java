@@ -21,8 +21,10 @@ public class ClientApp {
                 String msg = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 serverWriter.println(msg);
 
-                if (msg.equals("/quit"))
-                    break;
+                if (msg.equals("/quit")) {
+                    socket.close();
+                    return;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

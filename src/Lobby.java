@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.Objects;
 
 public class Lobby {
@@ -5,6 +6,7 @@ public class Lobby {
 
     public int lobbyIndex; /* same as gameIndex */
     public GameRunner gameRunner;
+    private PrintWriter[] clientWriter;
 
     public String[] playerNames;
     public int playersInLobby;
@@ -12,9 +14,11 @@ public class Lobby {
     Boolean gameFinished;
     String winnerName;
 
+
     public Lobby(int lobbyIndex) {
         this.lobbyIndex = lobbyIndex;
         this.playerNames = new String[playerCount];
+        this.clientWriter = new PrintWriter[playerCount];
         this.gameRunner = new GameRunner(lobbyIndex);
 
         this.playersInLobby = 0;
@@ -22,13 +26,14 @@ public class Lobby {
         this.gameFinished = false;
     }
 
-    public void addPlayer(String playerName) {
+    public void addPlayer(String playerName, PrintWriter clientWrite) {
         for (int i = 0; i < playerNames.length; i++) {
             if (playerNames[i] == null) {
                 playerNames[i] = playerName;
+                clientWriter[i] = clientWrite;
                 playersInLobby++;
 
-                gameRunner.addPlayer(playerName);
+                gameRunner.addPlayer(playerName, clientWrite);
                 break;
             }
         }
@@ -38,6 +43,7 @@ public class Lobby {
         for (int i = 0; i < playerNames.length; i++) {
             if (Objects.equals(playerNames[i], playerName)) {
                 playerNames[i] = null;
+                clientWriter[i] = null;
                 playersInLobby--;
 
                 gameRunner.removePlayer(playerName);

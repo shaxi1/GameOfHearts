@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,13 @@ public class GameRunner {
     private Card[] cardPile;
     private volatile Card openingCard;
 
+    private PrintWriter[] clientWriter;
+
     public GameRunner(int gameIndex) {
         this.gameIndex = 0;
         gameStarted = false;
         this.players = new Player[playerCount];
+        this.clientWriter = new PrintWriter[playerCount];
         this.playersInLobby = 0;
 
         this.turn = -1;
@@ -30,10 +34,12 @@ public class GameRunner {
         this.currentPlayer = -1;
     }
 
-    public void addPlayer(String playerName) {
+    public void addPlayer(String playerName, PrintWriter clientWriter) {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
                 players[i] = new Player(playerName, i);
+                this.clientWriter[i] = clientWriter;
+
                 playersInLobby++;
                 break;
             }
@@ -44,6 +50,8 @@ public class GameRunner {
         for (int i = 0; i < players.length; i++) {
             if (players[i].name.equals(playerName)) {
                 players[i] = null;
+                this.clientWriter[i] = null;
+
                 playersInLobby--;
                 break;
             }
@@ -54,6 +62,7 @@ public class GameRunner {
         gameStarted = true;
         cardPile = new Card[playerCount];
         VirtualDealer virtualDealer = new VirtualDealer();
+        gameStartNotify();
 
         for (int i = 1; i <= turnCount; i++) {
             turn = i;
@@ -63,6 +72,10 @@ public class GameRunner {
 
             for (int j = 0; j < handSize; j++) {
                 for (int z = 0; z < playerCount; z++) {
+                    // TODO: send msg to client
+                    sendPileMsg();
+                    sendYourTurnMsg(currentPlayer);
+
                     this.cardPlayed = false;
                     while(!this.cardPlayed) {
                         // wait for card to be played (var set by playCard called in MessageHandler)
@@ -83,6 +96,31 @@ public class GameRunner {
         }
 
         return getWinner();
+    }
+
+    private void sendPileMsg() {
+        if (isCardPileEmpty())
+            return;
+        StringBuilder pileMsg = new StringBuilder("Cards in play: ");
+        for (int i = 0; i < cardPile.length; i++) {
+            pileMsg.append(cardPile[i].symbol).append(" of ").append(cardPile[i].suit).append(", ");
+        }
+
+        for (int i = 0; i < players.length; i++) {
+            clientWriter[i].println(pileMsg);
+        }
+    }
+
+    private void gameStartNotify() {
+        for (int i = 0; i < players.length; i++) {
+            if (players[i] != null) {
+                clientWriter[i].println("Game has started");
+            }
+        }
+    }
+
+    private void sendYourTurnMsg(int playerIndex) {
+        clientWriter[playerIndex].println("It's your turn, play <name suit>");
     }
 
     private Player getWinner() {
