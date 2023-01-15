@@ -6,7 +6,7 @@ public class Lobby {
 
     public int lobbyIndex; /* same as gameIndex */
     public GameRunner gameRunner;
-    private PrintWriter[] clientWriter;
+    public PrintWriter[] clientWriter;
 
     public String[] playerNames;
     public int playersInLobby;

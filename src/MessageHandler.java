@@ -41,6 +41,7 @@ public class MessageHandler {
             client.currentLobbyIndex = lobbyIndex;
             lobby.playersInLobby++;
             lobby.addPlayer(client.name, clientWrite);
+            sendRefreshedLobbiesString(lobbyIndex, lobbies);
             clientWrite.println("You have joined lobby " + lobbyIndex + "!");
             clientWrite.println("Waiting for other players to join...");
         } else if (message.startsWith("/leave_lobby")) {
@@ -49,14 +50,16 @@ public class MessageHandler {
                 return;
             }
 
+            sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies);
             leaveLobby(client, lobbies);
             clientWrite.println("You left the lobby!");
         } else if (message.startsWith("/quit")) {
             clientWrite.println("Goodbye!");
 
-            if (client.currentLobbyIndex != -1)
+            if (client.currentLobbyIndex != -1) {
+                sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies);
                 leaveLobby(client, lobbies);
-
+            }
             // remove client from clients vector by name
             for (int i = 0; i < clients.size(); i++) {
                 if (clients.get(i).name.equals(client.name)) {
@@ -102,5 +105,16 @@ public class MessageHandler {
             String playMsg = lobby.playCard(client.name, card);
             clientWrite.println(playMsg);
         }
+    }
+
+    private void sendRefreshedLobbiesString(int lobbyIndex, List<Lobby> lobbies) {
+        ListLobbies listLobbies = new ListLobbies(lobbies);
+        String lobbiesString = listLobbies.getLobbiesString();
+
+        Lobby lobby = lobbies.get(lobbyIndex);
+        for (int i = 0; i < lobby.playersInLobby; i++) {
+            lobby.clientWriter[i].println(lobbiesString);
+        }
+
     }
 }
