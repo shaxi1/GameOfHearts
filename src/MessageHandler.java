@@ -41,7 +41,7 @@ public class MessageHandler {
             client.currentLobbyIndex = lobbyIndex;
             lobby.playersInLobby++;
             lobby.addPlayer(client.name, clientWrite);
-            clientWrite.println("You have joined a lobby " + lobbyIndex + "!");
+            clientWrite.println("You have joined lobby " + lobbyIndex + "!");
             clientWrite.println("Waiting for other players to join...");
         } else if (message.startsWith("/leave_lobby")) {
             if (client.currentLobbyIndex == -1) {
