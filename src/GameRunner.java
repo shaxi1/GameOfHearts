@@ -6,6 +6,7 @@ public class GameRunner {
     private final int playerCount = 4; /* min and max */
     private final int turnCount = 7;
     private final int handSize = 13;
+    private final int maxPileSize = 4;
 
     public int gameIndex;
     private int playersInLobby;
@@ -78,7 +79,9 @@ public class GameRunner {
                     sendYourHandMsg();
 
                     this.cardPlayed = false;
-                    while(!this.cardPlayed) {
+                    while(true) {
+                        if (this.cardPlayed)
+                            break;
                         // wait for card to be played (var set by playCard called in MessageHandler)
                     }
 
@@ -120,8 +123,9 @@ public class GameRunner {
         if (isCardPileEmpty())
             return;
         StringBuilder pileMsg = new StringBuilder("Cards in play: ");
-        for (Card card : cardPile) {
-            pileMsg.append(card.symbol).append(" of ").append(card.suit).append(", ");
+        for (int i = 0; i < maxPileSize; i++) {
+            if (cardPile[i] != null)
+                pileMsg.append(cardPile[i].symbol).append(" of ").append(cardPile[i].suit).append(", ");
         }
 
         for (int i = 0; i < players.length; i++) {
@@ -138,7 +142,7 @@ public class GameRunner {
     }
 
     private void sendYourTurnMsg(int playerIndex) {
-        clientWriter[playerIndex].println("It's your turn, play <name suit>");
+        clientWriter[playerIndex].println("\nIt's your turn, play <name suit>");
     }
 
     private Player getWinner() {

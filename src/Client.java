@@ -9,6 +9,7 @@ public class Client {
     public Client(Socket socket) {
         this.socket = socket;
         this.isPlaying = false;
+        this.currentLobbyIndex = -1;
     }
 
 

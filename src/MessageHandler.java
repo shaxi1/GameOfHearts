@@ -33,7 +33,7 @@ public class MessageHandler {
                 return;
             }
 
-            if (client.isPlaying) {
+            if (client.currentLobbyIndex != -1) {
                 clientWrite.println("You are already in a game!");
                 return;
             }
@@ -90,18 +90,22 @@ public class MessageHandler {
             // get card name from message
             String[] messageParts = message.split(" ");
             if (messageParts.length != 3) {
-                clientWrite.println("Invalid command!");
+                clientWrite.println("Invalid command, should be play <name suit>!");
                 return;
             }
 
-            String cardName = messageParts[1];
+            String cardSymbol = messageParts[1];
             String cardSuit = messageParts[2];
 
-            Card card = new Card(cardSuit, cardName);
+            Card card = new Card(cardSuit, cardSymbol);
 
             Lobby lobby = lobbies.get(client.currentLobbyIndex);
             String playMsg = lobby.playCard(client.name, card);
             clientWrite.println(playMsg);
+
+//            if (playMsg.equals("Card played")) {
+//                sendRefreshedLobbiesString(client.currentLobbyIndex, lobbies, null);
+//            }
         }
     }
 

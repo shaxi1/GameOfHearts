@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Player {
     public String name;
@@ -27,7 +28,7 @@ public class Player {
 
     public Boolean playCard(Card card) { // remove card from hand and let gamerunner handle the rest earlier
         for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(i).equals(card)) {
+            if (Objects.equals(hand.get(i).suit, card.suit) && Objects.equals(hand.get(i).symbol, card.symbol)) {
                 hand.remove(i);
                 return true;
             }
