@@ -158,7 +158,6 @@ public class GameRunner {
 
 
     public Boolean playCard(String playerName, Card card) {
-        // TODO: W rozdaniach 2., 5. i 7. nie można wychodzić w kiery, jeśli ma się karty innego koloru.
         Player player = getPlayerByName(playerName);
         if (player == null)
             return false;
@@ -176,19 +175,6 @@ public class GameRunner {
         this.cardPlayed = true;
 
         return true;
-    }
-
-    private Boolean playerHasOtherSuitThanHearts(String playerName) {
-        Player player = getPlayerByName(playerName);
-        if (player == null)
-            return false;
-
-        for (Card card : player.hand) {
-            if (!Objects.equals(card.suit, "Hearts"))
-                return true;
-        }
-
-        return false;
     }
 
     private Boolean isCardPileEmpty() {
