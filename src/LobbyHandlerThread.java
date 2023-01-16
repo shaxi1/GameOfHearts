@@ -46,26 +46,22 @@ public class LobbyHandlerThread extends Thread {
 
     private void movePlayersAndPrintWinner(Lobby lobby, String winnerName) {
         for (int i = 0; i < lobby.playerNames.length; i++) {
-            for (Client client : clients) {
-                if (client.name.equals(lobby.playerNames[i])) {
-                    client.isPlaying = false;
-                    client.currentLobbyIndex = -1;
+            Socket socket;
+            if (lobby.playerNames[i] != null) {
+                String playerName = lobby.playerNames[i];
+                socket = getSocketByName(playerName);
 
-                    Socket socket = getSocketByName(lobby.playerNames[i]);
-                    // write winner name to client
-                    PrintWriter clientWrite = null;
-                    try {
-                        assert socket != null;
-                        clientWrite = new PrintWriter(socket.getOutputStream(), true);
-                        clientWrite.println("Game finished! Winner: " + winnerName);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+                // write winner name to clients
+                PrintWriter clientWrite = null;
+                try {
+                    assert socket != null;
+                    clientWrite = new PrintWriter(socket.getOutputStream(), true);
+                    clientWrite.println("Game finished! Winner: " + winnerName);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
-
     }
 
     private Boolean isEmptyLobby() {

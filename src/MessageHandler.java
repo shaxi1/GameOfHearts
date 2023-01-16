@@ -121,5 +121,6 @@ public class MessageHandler {
                 lobby.clientWriter[i].println(lobbiesString);
         }
 
+        System.out.println(lobbiesString);
     }
 }
