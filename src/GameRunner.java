@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameRunner {
     private final int playerCount = 4; /* min and max */
@@ -12,7 +13,7 @@ public class GameRunner {
     private int playersInLobby;
 
     private Player[] players;
-    private int turn;
+    private volatile int turn;
     private int lastStartingPlayer;
     private int currentPlayer;
     private Boolean gameStarted;
@@ -73,7 +74,6 @@ public class GameRunner {
 
             for (int j = 0; j < handSize; j++) {
                 for (int z = 0; z < playerCount; z++) {
-                    // TODO: send msg to client
                     sendPileMsg();
                     sendYourTurnMsg(currentPlayer);
                     sendYourHandMsg();
@@ -176,6 +176,19 @@ public class GameRunner {
         this.cardPlayed = true;
 
         return true;
+    }
+
+    private Boolean playerHasOtherSuitThanHearts(String playerName) {
+        Player player = getPlayerByName(playerName);
+        if (player == null)
+            return false;
+
+        for (Card card : player.hand) {
+            if (!Objects.equals(card.suit, "Hearts"))
+                return true;
+        }
+
+        return false;
     }
 
     private Boolean isCardPileEmpty() {
