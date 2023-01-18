@@ -122,7 +122,7 @@ public class GameRunner {
     private void sendPileMsg() {
         if (isCardPileEmpty())
             return;
-        StringBuilder pileMsg = new StringBuilder("Cards in play: ");
+        StringBuilder pileMsg = new StringBuilder("\n\nCards in play: ");
         for (int i = 0; i < maxPileSize; i++) {
             if (cardPile[i] != null)
                 pileMsg.append(cardPile[i].symbol).append(" of ").append(cardPile[i].suit).append(", ");
