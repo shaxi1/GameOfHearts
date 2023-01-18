@@ -8,7 +8,7 @@ public class LobbyHandlerThread extends Thread {
     final int maxPlayers = 4;
 
     volatile List <Lobby> lobbies;
-    Vector <Client> clients;
+    volatile Vector <Client> clients;
 
     public LobbyHandlerThread(List<Lobby> lobbies, Vector<Client> clients) {
         this.lobbies = lobbies;
