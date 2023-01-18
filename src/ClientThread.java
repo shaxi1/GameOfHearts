@@ -44,7 +44,7 @@ public class ClientThread extends Thread {
             ListLobbies listLobbies = new ListLobbies(lobbies);
             String lobbiesString = listLobbies.getLobbiesString();
             clientWrite.println(lobbiesString);
-            clientWrite.println("Commands: /join <lobby number>, /quit, /leave_lobby | In game: /play <card name card suit>");
+            clientWrite.println("Commands: /join <lobby number>, /quit, /leave_lobby, /say | In game: /play <card name card suit>");
 
             while (true) {
                 String message = clientRead.readLine();

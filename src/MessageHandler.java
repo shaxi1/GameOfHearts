@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
@@ -9,8 +11,7 @@ public class MessageHandler {
 
     }
 
-
-    public void handleCommand(String message, Client client, List<Lobby> lobbies, Vector<Client> clients, PrintWriter clientWrite) {
+    public void handleCommand(String message, Client client, List<Lobby> lobbies, Vector<Client> clients, PrintWriter clientWrite) throws IOException {
         if (message == null)
             return;
 
@@ -65,6 +66,28 @@ public class MessageHandler {
                     clients.remove(i);
                     break;
                 }
+            }
+        } else if (message.startsWith("/say")) {
+            // client sends a msg to global chat
+            String[] messageParts = message.split(" ");
+            if (messageParts.length < 2) {
+                clientWrite.println("Invalid command, enter message!");
+                return;
+            }
+
+            StringBuilder msg = new StringBuilder();
+            for (int i = 1; i < messageParts.length; i++) {
+                msg.append(messageParts[i]).append(" ");
+            }
+            msg = new StringBuilder(msg.substring(0, msg.length() - 1));
+            for (int i = 0; i < clients.size(); i++) {
+                Socket socket = clients.get(i).socket;
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+
+                if (client.name.equals(clients.get(i).name))
+                    writer.println("You said: " + msg);
+                else
+                    writer.println(client.name + ": " + msg);
             }
         } else if (!message.startsWith("play")) {
             clientWrite.println("Invalid command!");
