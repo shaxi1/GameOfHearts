@@ -4,7 +4,9 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
-// A class that handles messages sent by the client.
+/**
+ * This class is responsible for handling messages
+ */
 public class MessageHandler {
     final int maxPlayers = 4;
 
