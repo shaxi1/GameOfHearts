@@ -5,10 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * It creates a server that listens for connections on port 1000.
+ */
 public class Server {
     static final int PORT = 1000;
     static volatile List<Lobby> lobbies = new ArrayList<Lobby>();
 
+    /**
+     * The server starts a new thread for each client that connects to it
+     */
     public static void main(String[] args) {
         Vector <Client> clients = new Vector<>();
         ListLobbies listLobbies = new ListLobbies(lobbies);

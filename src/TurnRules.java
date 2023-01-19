@@ -1,5 +1,8 @@
 import java.util.Objects;
 
+/**
+ * > The `TurnRules` class is a collection of rules that determine rules for each of the turns in game of hearts.
+ */
 public class TurnRules {
     private final int lastPile = 12;
     private int turnNumber;
@@ -9,6 +12,14 @@ public class TurnRules {
     }
 
 
+    /**
+     * > It counts points based on the cards in the pile and turn number.
+     *
+     * @param turnNumber The turn number of the game.
+     * @param endingPile The cards that are in the pile at the end of the turn.
+     * @param pileTakenNumber The number of the pile that was taken.
+     * @return The number of points that the player has earned.
+     */
     public int calculatePoints(int turnNumber, Card[] endingPile, int pileTakenNumber) {
         int points = 0;
 
@@ -30,12 +41,22 @@ public class TurnRules {
         return points;
     }
 
-    // -20 for each pile taken
+    /**
+     * > This function returns the number of cards in the ending pile
+     * In turn one taking a pile is worth -20 points.
+     *
+     * @param endingPile The cards that are in the ending pile.
+     */
     private int turnOneCount(Card[] endingPile) {
         return -20;
     }
 
-    // -20 for each heart taken
+    /**
+     * If the ending pile contains any hearts, subtract 20 points
+     *
+     * @param endingPile The cards that are in the ending pile.
+     * @return The number of points that the player has.
+     */
     private int turnTwoCount(Card[] endingPile) {
         int points = 0;
         for (Card card : endingPile) {
@@ -45,7 +66,12 @@ public class TurnRules {
         return points;
     }
 
-    // -60 for each queen taken
+    /**
+     * If the ending pile contains a Queen, subtract 60 points
+     *
+     * @param endingPile The array of cards that are in the ending pile.
+     * @return The points for the ending pile.
+     */
     private int turnThreeCount(Card[] endingPile) {
         int points = 0;
         for (Card card : endingPile) {
@@ -55,7 +81,12 @@ public class TurnRules {
         return points;
     }
 
-    // -30 for each king or jack taken
+    /**
+     * If the ending pile contains a King or a Jack, subtract 30 points
+     *
+     * @param endingPile The array of cards that are in the ending pile.
+     * @return The method is returning the points that the player has earned.
+     */
     private int turnFourCount(Card[] endingPile) {
         int points = 0;
         for (Card card : endingPile) {
@@ -65,7 +96,12 @@ public class TurnRules {
         return points;
     }
 
-    // -150 for taking king of hearts
+    /**
+     * If the ending pile contains a King of Hearts, subtract 150 points
+     *
+     * @param endingPile The array of cards that are in the ending pile.
+     * @return The points for the turn five count.
+     */
     private int turnFiveCount(Card[] endingPile) {
         int points = 0;
         for (Card card : endingPile) {
@@ -75,7 +111,13 @@ public class TurnRules {
         return points;
     }
 
-    // -75 for 7th and last pile taken
+    /**
+     * If the player takes the last pile or the 7th pile, they subtract 75 points
+     *
+     * @param endingPile The pile that the player took from.
+     * @param pileTakenNumber the pile number that the player took
+     * @return The points that the player gets for taking the pile.
+     */
     private int turnSixCount(Card[] endingPile, int pileTakenNumber) {
         int points = 0;
         if (pileTakenNumber == 7 || pileTakenNumber == lastPile)
@@ -83,7 +125,13 @@ public class TurnRules {
         return points;
     }
 
-    // all turn rules combined
+    /**
+     * > This function combines all rules for turn seven.
+     *
+     * @param endingPile The pile of cards that the player has at the end of the game.
+     * @param pileTakenNumber the number of the pile that was taken
+     * @return The total points of the player.
+     */
     public int turnSevenCount(Card[] endingPile, int pileTakenNumber) {
         int points = 0;
         points += turnOneCount(endingPile);
@@ -95,6 +143,13 @@ public class TurnRules {
         return points;
     }
 
+    /**
+     * The function takes in an array of cards and an opening card, and returns the index of the player who takes the pile
+     *
+     * @param cardPile an array of cards that were played in the round
+     * @param openingCard The card that was played first in the pile.
+     * @return The index of the player who takes the pile.
+     */
     public int whoTakesPile(Card[] cardPile, Card openingCard) {
         int winnerIndex = -1;
         Card winnerCard = openingCard;

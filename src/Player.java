@@ -1,8 +1,10 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * It creates a class called Player, that represents a player in the game of hearts.
+ */
 public class Player {
     public String name;
     /*  indexes go as follows:
@@ -26,7 +28,13 @@ public class Player {
         this.hand = new ArrayList<>();
     }
 
-    public Boolean playCard(Card card) { // remove card from hand and let gamerunner handle the rest earlier
+    /**
+     * This function removes a card from the player's hand if it exists in the hand
+     *
+     * @param card the card to be played
+     * @return Boolean
+     */
+    public Boolean playCard(Card card) {
         for (int i = 0; i < hand.size(); i++) {
             if (Objects.equals(hand.get(i).suit, card.suit) && Objects.equals(hand.get(i).symbol, card.symbol)) {
                 hand.remove(i);
@@ -37,6 +45,9 @@ public class Player {
         return false;
     }
 
+    /**
+     * This function empties the hand of the player.
+     */
     public void emptyHand() {
         this.hand = new ArrayList<>();
     }

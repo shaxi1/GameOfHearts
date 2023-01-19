@@ -3,6 +3,9 @@ import java.io.*;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * This class is a thread that handles a client connection.
+ */
 public class ClientThread extends Thread {
     private Vector<Client> clients;
     private List<Lobby> lobbies;
@@ -23,6 +26,9 @@ public class ClientThread extends Thread {
         this.client = clients.get(clientIndex);
     }
 
+    /**
+     * The function reads the client's input and parses it to see if it's a command. If it is, it handles the command
+     */
     public void run() {
         try {
             MessageHandler messageParser = new MessageHandler();
@@ -75,6 +81,11 @@ public class ClientThread extends Thread {
         }
     }
 
+    /**
+     * Ask the user for a username, and if it's not taken, return it.
+     *
+     * @return The username that the client has entered.
+     */
     private String askForUsername() throws IOException {
         String message = "Please enter a username: ";
         this.clientWrite.println(message);
@@ -91,16 +102,17 @@ public class ClientThread extends Thread {
         return username;
     }
 
+    /**
+     * It removes a player from a lobby
+     *
+     * @param client The client that is leaving the lobby
+     * @param lobbies A list of all the lobbies
+     */
     private void leaveLobby(Client client, List<Lobby> lobbies) {
         Lobby lobby = lobbies.get(client.currentLobbyIndex);
         lobby.playersInLobby--;
         lobby.removePlayer(client.name);
         client.isPlaying = false;
     }
-
-//    @Override
-//    protected void finalize() {
-//        clients.remove(clientIndex);
-//    }
 
 }

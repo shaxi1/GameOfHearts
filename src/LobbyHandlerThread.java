@@ -4,6 +4,11 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * > This class is a thread that handles the lobbies. It is responsible for
+ * creating and deleting lobbies, and for moving players from
+ * lobbies after the game is finished.
+ */
 public class LobbyHandlerThread extends Thread {
     final int maxPlayers = 4;
 
@@ -17,6 +22,10 @@ public class LobbyHandlerThread extends Thread {
         lobbies.add(new Lobby(lobbies.size()));
     }
 
+    /**
+     * If there are no empty lobbies, create a new one. If a game is finished, move the players out of the lobby and print
+     * the winner. If there are enough players in a lobby, start the game
+     */
     public synchronized void run() {
         while (true) {
             // if no empty lobbies create a new one
@@ -44,6 +53,13 @@ public class LobbyHandlerThread extends Thread {
         }
     }
 
+    /**
+     * It takes a lobby and a winner name, and then it writes the winner name to all the players in the lobby
+     * Also it moves the players out of the lobby
+     *
+     * @param lobby The lobby that the game is in.
+     * @param winnerName The name of the player who won the game.
+     */
     private void movePlayersAndPrintWinner(Lobby lobby, String winnerName) {
         for (int i = 0; i < lobby.playerNames.length; i++) {
             Socket socket;
@@ -60,10 +76,20 @@ public class LobbyHandlerThread extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                lobby.removePlayer(lobby.playerNames[i]);
+                Client temp = getClientByUsername(playerName);
+                if (temp != null)
+                    temp.currentLobbyIndex = -1;
             }
         }
     }
 
+    /**
+     * If there are no lobbies with 0 players, return false, otherwise return true.
+     *
+     * @return A boolean value.
+     */
     private Boolean isEmptyLobby() {
         for (Lobby lobby : lobbies)
             if (lobby.playersInLobby == 0)
@@ -72,10 +98,29 @@ public class LobbyHandlerThread extends Thread {
         return false;
     }
 
+    /**
+     * Return the socket of the client with the given name.
+     *
+     * @param name The name of the client you want to get the socket of.
+     * @return A socket.
+     */
     private Socket getSocketByName(String name) {
         for (Client client : clients)
             if (client.name.equals(name))
                 return client.socket;
+        return null;
+    }
+
+    /**
+     * Return the client with the given username, or null if no such client exists.
+     *
+     * @param username The username of the client that sent the message.
+     * @return The client object that matches the username.
+     */
+    private Client getClientByUsername(String username) {
+        for (Client client : clients)
+            if (client.name.equals(username))
+                return client;
         return null;
     }
 

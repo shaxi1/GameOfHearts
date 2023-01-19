@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * > This class is used to list all the lobbies that are currently available
+ */
 public class ListLobbies {
     public List<Lobby> lobbies;
 
@@ -7,6 +10,11 @@ public class ListLobbies {
         this.lobbies = lobbies;
     }
 
+    /**
+     * It returns a string that contains the names of all the players in all the lobbies
+     *
+     * @return A string containing the names of the players in each lobby.
+     */
     public String getLobbiesString() {
         StringBuilder lobbiesString = new StringBuilder("Lobbies: " + "\n");
         for (int i = 0; i < lobbies.size(); i++) {

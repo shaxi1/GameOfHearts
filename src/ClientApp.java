@@ -4,6 +4,10 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+/**
+ * It creates a socket, connects to the server, and then creates a thread to read messages from the server and a loop to
+ * read messages from the user and send them to the server
+ */
 public class ClientApp {
     private static final int PORT = 1000;
 

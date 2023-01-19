@@ -1,8 +1,8 @@
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
+/**
+ * A class that runs the game of hearts.
+ */
 public class GameRunner {
     private final int playerCount = 4; /* min and max */
     private final int turnCount = 7;
@@ -14,12 +14,17 @@ public class GameRunner {
 
     private Player[] players;
     private volatile int turn;
+    // Used to keep track of the player that starts the turn and the player that is currently playing.
     private int lastStartingPlayer;
     private int currentPlayer;
+
     private Boolean gameStarted;
 
-    private volatile Boolean cardPlayed; // volatile to make sure the changes are visible to all threads
+    // volatile to make sure the changes are visible to all threads
+    private volatile Boolean cardPlayed;
+    // An array of cards that are played in one cycle.
     private Card[] cardPile;
+    // Used to store the first card that is played in a turn.
     private volatile Card openingCard;
 
     private PrintWriter[] clientWriter;
@@ -36,6 +41,12 @@ public class GameRunner {
         this.currentPlayer = -1;
     }
 
+    /**
+     * It adds a player to the game
+     *
+     * @param playerName The name of the player that is joining the lobby.
+     * @param clientWriter The PrintWriter that is used to send messages to the client.
+     */
     public void addPlayer(String playerName, PrintWriter clientWriter) {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
@@ -48,6 +59,12 @@ public class GameRunner {
         }
     }
 
+    /**
+     * It removes a player from the game, called when a player leaves the lobby.
+     * If the player exists, set the player to null and decrement the number of players in the lobby.
+     *
+     * @param playerName The name of the player to be removed.
+     */
     public void removePlayer(String playerName) {
         for (int i = 0; i < players.length; i++) {
             if (players[i].name.equals(playerName)) {
@@ -60,6 +77,13 @@ public class GameRunner {
         }
     }
 
+    /**
+     * The game starts, the dealer deals cards every cycle, the players play cards, the pile taker is determined,
+     * the pile taker gets points based on rules of the current turn, the pile taker starts the next round,
+     * and the game ends
+     *
+     * @return The winner of the game.
+     */
     public Player startGame() {
         gameStarted = true;
         cardPile = new Card[playerCount];
@@ -103,6 +127,12 @@ public class GameRunner {
     }
 
 
+    /**
+     * "Send each player their hand."
+     *
+     * The first thing we do is create a StringBuilder object. This is a class that allows us to build a string by
+     * appending characters to it. We'll use this to build a string that contains the cards in each player's hand
+     */
     private void sendYourHandMsg() {
         for (int i = 0; i < playerCount; i++) {
             StringBuilder hand = new StringBuilder();
@@ -119,6 +149,9 @@ public class GameRunner {
         }
     }
 
+    /**
+     * This function sends a message to all players that displays the cards in the pile
+     */
     private void sendPileMsg() {
         if (isCardPileEmpty())
             return;
@@ -133,6 +166,9 @@ public class GameRunner {
         }
     }
 
+    /**
+     * This function sends a message to all players that the game has started.
+     */
     private void gameStartNotify() {
         for (int i = 0; i < players.length; i++) {
             if (players[i] != null) {
@@ -141,6 +177,11 @@ public class GameRunner {
         }
     }
 
+    /**
+     * This function sends a message to the player whose turn it is to play a card
+     *
+     * @param playerIndex the index of the player whose turn it is
+     */
     private void sendYourTurnMsg(int playerIndex) {
         clientWriter[playerIndex].println("\nIt's your turn, play <name suit>");
     }
@@ -157,6 +198,16 @@ public class GameRunner {
     }
 
 
+    /**
+     * "Play a card for the current player."
+     *
+     * The function is called by the client when the player wants to play a card. The function checks to see if
+     * the player is the current player, and if so, it plays the card using Player class's playCard function.
+     *
+     * @param playerName The name of the player who is playing the card.
+     * @param card The card that the player wants to play.
+     * @return A boolean value.
+     */
     public Boolean playCard(String playerName, Card card) {
         Player player = getPlayerByName(playerName);
         if (player == null)
@@ -177,6 +228,11 @@ public class GameRunner {
         return true;
     }
 
+    /**
+     * If any card in the card pile is not null, return false, otherwise return true.
+     *
+     * @return A boolean value.
+     */
     private Boolean isCardPileEmpty() {
         for (Card card : cardPile) {
             if (card != null)
@@ -185,6 +241,12 @@ public class GameRunner {
         return true;
     }
 
+    /**
+     * Return the player with the given name, or null if no such player exists.
+     *
+     * @param playerName The name of the player to get.
+     * @return The player object with the name that matches the playerName parameter.
+     */
     private Player getPlayerByName(String playerName) {
         for (Player player : players)
             if (player.name.equals(playerName))
