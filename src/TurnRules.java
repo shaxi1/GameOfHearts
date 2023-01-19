@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 /**
- * > The `TurnRules` class is a collection of rules that determine rules for each of the turns in game of hearts.
+ * The `TurnRules` class is a collection of rules that determine rules for each of the turns in game of hearts.
  */
 public class TurnRules {
     private final int lastPile = 12;

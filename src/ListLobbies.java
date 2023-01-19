@@ -1,7 +1,7 @@
 import java.util.List;
 
 /**
- * > This class is used to list all the lobbies that are currently available
+ * This class is used to list all the lobbies that are currently available
  */
 public class ListLobbies {
     public List<Lobby> lobbies;

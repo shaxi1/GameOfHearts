@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * > The VirtualDealer class is a class that represents a card dealer in a game of hearts.
+ * The VirtualDealer class is a class that represents a card dealer in a game of hearts.
  * it randomizes the cards in players' hands.
  */
 public class VirtualDealer {

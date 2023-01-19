@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * > This class is a thread that handles the lobbies. It is responsible for
+ * This class is a thread that handles the lobbies. It is responsible for
  * creating and deleting lobbies, and for moving players from
  * lobbies after the game is finished.
  */
